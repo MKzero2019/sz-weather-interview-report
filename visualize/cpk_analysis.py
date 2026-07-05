@@ -42,7 +42,6 @@ class CPKAnalyzer:
         # 创建图表目录
         os.makedirs(CHARTS_DIR, exist_ok=True)
         
-        # 设置风格
         sns.set_style("whitegrid")
         
         # CPK结果
@@ -80,13 +79,12 @@ class CPKAnalyzer:
         Returns:
             tuple: (cpk, cp, cpu, cpl, mean, std)
         """
-        mean = np.mean(data)
+        mean = np.mean(data) #numpy输出完整公式
         std = np.std(data, ddof=1)  # 样本标准差
         
-        # 计算CP
+        # 计算CP、CPU和CPL
         cp = (usl - lsl) / (6 * std)
         
-        # 计算CPU和CPL
         cpu = (usl - mean) / (3 * std)
         cpl = (mean - lsl) / (3 * std)
         
@@ -281,7 +279,6 @@ class CPKAnalyzer:
         print("=" * 60)
         
         return cpk_chart, self.cpk_results
-
 
 if __name__ == "__main__":
     analyzer = CPKAnalyzer()

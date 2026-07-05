@@ -25,7 +25,6 @@ CHARTS_DIR = "../report/charts"
 CLEAN_DATA_FILENAME = "shenzhen_weather_clean.csv"
 DAILY_STATS_FILENAME = "shenzhen_weather_daily.csv"
 
-
 class LineScatterPlotter:
     """折线图与散点图绘制类"""
     
@@ -34,7 +33,6 @@ class LineScatterPlotter:
         # 创建图表目录
         os.makedirs(CHARTS_DIR, exist_ok=True)
         
-        # 设置风格
         sns.set_style("whitegrid")
     
     def log(self, message):
@@ -235,3 +233,4 @@ if __name__ == "__main__":
     print("\n生成的图表:")
     for name, path in figures.items():
         print(f"  {name}: {path}")
+        

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
-# 强制只使用黑体
+# 强制使用黑体
 plt.rcParams["font.sans-serif"] = ["SimHei"]
 plt.rcParams["axes.unicode_minus"] = False
 
@@ -11,7 +11,7 @@ print("全部字体列表：")
 print(all_fonts)
 print("\n是否包含SimHei：", "SimHei" in all_fonts)
 
-# 画一张测试图验证中文
+# 测试图验证中文文字是否乱码
 fig, ax = plt.subplots()
 ax.set_title("中文测试：气温与体感温度散点图")
 ax.set_xlabel("横轴：气温(℃)")

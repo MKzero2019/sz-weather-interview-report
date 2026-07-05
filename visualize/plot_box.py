@@ -75,7 +75,7 @@ class BoxPlotter:
         data_by_day = [df[df["日期"] == day]["气温"].values for day in days]
         x_labels = [str(d) for d in days]
 
-        # 移除labels参数，只保留合法入参
+        # 移除labels参数
         bp = ax.boxplot(data_by_day, patch_artist=True)
         # 手动设置横轴刻度与文字
         ax.set_xticks(range(1, len(x_labels)+1))
@@ -144,8 +144,8 @@ class BoxPlotter:
         ax2.set_title('气温Q-Q图（正态性检验）', fontsize=14, fontweight='bold', fontproperties=my_font)
         ax2.set_xlabel('理论正态分位数', fontsize=11, fontproperties=my_font)
         ax2.set_ylabel('气温观测值（升序）', fontsize=11, fontproperties=my_font)
-        ax2.get_lines()[0].set_markerfacecolor('#e74c3c')
-        ax2.get_lines()[0].set_markeredgecolor('white')
+        ax2.get_lines()[0].set_markerfacecolor("#38f0f3")
+        ax2.get_lines()[0].set_markeredgecolor("#08b5ff")
         ax2.grid(True, alpha=0.3, linestyle='--')
         
         plt.suptitle('深圳气温分布正态性分析', fontsize=16, fontweight='bold', y=1.02, fontproperties=my_font)

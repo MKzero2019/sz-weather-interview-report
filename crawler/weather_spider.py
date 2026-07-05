@@ -196,7 +196,6 @@ class WeatherSpider:
         
         return merged_df
 
-
 if __name__ == "__main__":
     spider = WeatherSpider()
     data = spider.run()

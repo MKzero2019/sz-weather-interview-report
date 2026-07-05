@@ -27,7 +27,7 @@ HEADERS = {
     "Connection": "keep-alive"
 }
 
-# 请求超时时间（秒）
+# 请求超时时间
 REQUEST_TIMEOUT = 30
 
 # 需要获取的天气指标
