@@ -38,11 +38,11 @@ ENV/
 Thumbs.db
 
 # 数据文件（不提交原始数据和处理后数据）
-data/raw/
-data/clean/
+# data/raw/
+# data/clean/
 
 # 生成的图表
-report/charts/
+# report/charts/
 
 # 日志文件
 *.log
