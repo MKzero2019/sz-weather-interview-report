@@ -144,8 +144,8 @@ class BoxPlotter:
         ax2.set_title('气温Q-Q图（正态性检验）', fontsize=14, fontweight='bold', fontproperties=my_font)
         ax2.set_xlabel('理论正态分位数', fontsize=11, fontproperties=my_font)
         ax2.set_ylabel('气温观测值（升序）', fontsize=11, fontproperties=my_font)
-        ax2.get_lines()[0].set_markerfacecolor("#38f0f3")
-        ax2.get_lines()[0].set_markeredgecolor("#08b5ff")
+        ax2.get_lines()[0].set_markerfacecolor("#ffd500")
+        ax2.get_lines()[0].set_markeredgecolor("#ffc400")
         ax2.grid(True, alpha=0.3, linestyle='--')
         
         plt.suptitle('深圳气温分布正态性分析', fontsize=16, fontweight='bold', y=1.02, fontproperties=my_font)
