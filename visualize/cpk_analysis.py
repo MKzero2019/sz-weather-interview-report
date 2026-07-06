@@ -277,7 +277,7 @@ class CPKAnalyzer:
         print("=" * 60)
         print("CPK分析完成")
         print("=" * 60)
-        
+
         return cpk_chart, self.cpk_results
 
 if __name__ == "__main__":

@@ -19,7 +19,6 @@ from request_config import (
     RAW_DATA_DIR, RAW_DATA_FILENAME
 )
 
-
 class WeatherSpider:
     """天气数据爬虫类"""
     

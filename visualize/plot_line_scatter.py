@@ -32,7 +32,6 @@ class LineScatterPlotter:
         """初始化绘图器"""
         # 创建图表目录
         os.makedirs(CHARTS_DIR, exist_ok=True)
-        
         sns.set_style("whitegrid")
     
     def log(self, message):

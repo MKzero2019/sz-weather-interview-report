@@ -109,7 +109,7 @@ class BoxPlotter:
     def plot_temperature_distribution(self, df, filename="02_temperature_distribution.png"):
         """
         绘制温度的正态分布图（直方图+核密度估计）
-        
+
         Args:
             df: 小时级数据
             filename: 输出文件名
