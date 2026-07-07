@@ -116,7 +116,8 @@ sz-weather-interview-report/
 │       ├── 04_temperature_line.png
 │       ├── 05_temp_vs_apparent_boxplot.png
 │       ├── 06_cpk_analysis.png
-│       └── 07_correlation_heatmap.png
+│       ├── 07_correlation_heatmap.png
+│       └── 08_temperature_time_scatter.png
 ├── fonts/                 
 │   └── simhei.ttf          # 字体包文件
 ├── requirements.txt        # 项目依赖包及版本
