@@ -108,20 +108,20 @@ class BoxPlotter:
     
     def plot_temperature_distribution(self, df, filename="02_temperature_distribution.png"):
         """
-        绘制温度的正态分布图（直方图+核密度估计）
-
+        绘制温度与时间的正态分布图（14天时间维度）
+        左图：14天整体气温正态分布；右图：14天每日正态分布参数时序
         Args:
             df: 小时级数据
             filename: 输出文件名
         """
-        self.log("绘制温度正态分布图")
+        self.log("绘制14天温度与时间的正态分布图")
         
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
-        
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 7))
         temp_data = df["气温"].values
-        
-        # 左图：直方图 + KDE
-        ax1.hist(temp_data, bins=30, density=True, alpha=0.7, color='#3498db', edgecolor='white')
+
+        # ========== 左图：14天整体气温正态分布图 ==========
+        # 直方图
+        ax1.hist(temp_data, bins=30, density=True, alpha=0.7, color='#3498db', edgecolor='white', label='气温频次分布')
         
         # 核密度估计
         kde = stats.gaussian_kde(temp_data)
@@ -131,31 +131,47 @@ class BoxPlotter:
         # 正态分布拟合
         mu, std = stats.norm.fit(temp_data)
         ax1.plot(x_range, stats.norm.pdf(x_range, mu, std), 'g--', linewidth=2, 
-                label=f'正态分布 (μ={mu:.2f}, σ={std:.2f})')
+                label=f'正态拟合 (μ={mu:.2f}, σ={std:.2f})')
 
-        ax1.set_title('气温分布直方图与核密度估计', fontsize=14, fontweight='bold', fontproperties=my_font)
+        ax1.set_title('14天整体气温正态分布图', fontsize=14, fontweight='bold', fontproperties=my_font)
         ax1.set_xlabel('气温 (°C)', fontsize=11, fontproperties=my_font)
         ax1.set_ylabel('概率密度', fontsize=11, fontproperties=my_font)
         ax1.legend(fontsize=10, prop=my_font)
         ax1.grid(True, alpha=0.3, linestyle='--')
+
+        # ========== 右图：14天每日正态分布参数时序图 ==========
+        # 计算每日正态分布核心参数：均值、标准差
+        daily_temp = df.groupby("日期")["气温"].agg(["mean", "std"]).reset_index()
+        days = daily_temp["日期"].values
+        mean_temp = daily_temp["mean"].values
+        std_temp = daily_temp["std"].values
+
+        # 误差棒：均值±1倍标准差
+        ax2.errorbar(
+            x=range(len(days)), y=mean_temp, yerr=std_temp,
+            fmt='o-', color='#e74c3c', ecolor='#3498db', 
+            elinewidth=2, capsize=4, linewidth=2, markersize=6,
+            label='每日均值 μ ± 1σ 区间'
+        )
+
+        # 设置横轴日期标签
+        ax2.set_xticks(range(len(days)))
+        ax2.set_xticklabels([str(d) for d in days], rotation=45)
         
-        # 右图：Q-Q图
-        stats.probplot(temp_data, dist="norm", plot=ax2)
-        ax2.set_title('气温Q-Q图（正态性检验）', fontsize=14, fontweight='bold', fontproperties=my_font)
-        ax2.set_xlabel('理论正态分位数', fontsize=11, fontproperties=my_font)
-        ax2.set_ylabel('气温观测值（升序）', fontsize=11, fontproperties=my_font)
-        ax2.get_lines()[0].set_markerfacecolor("#ffd500")
-        ax2.get_lines()[0].set_markeredgecolor("#ffc400")
+        ax2.set_title('14天每日气温正态分布区间时序', fontsize=14, fontweight='bold', fontproperties=my_font)
+        ax2.set_xlabel('日期（时间）', fontsize=11, fontproperties=my_font)
+        ax2.set_ylabel('气温 (°C)', fontsize=11, fontproperties=my_font)
+        ax2.legend(fontsize=10, prop=my_font)
         ax2.grid(True, alpha=0.3, linestyle='--')
-        
-        plt.suptitle('深圳气温分布正态性分析', fontsize=16, fontweight='bold', y=1.02, fontproperties=my_font)
+
+        plt.suptitle('温度与时间的正态分布图（14天）', fontsize=16, fontweight='bold', y=1.02, fontproperties=my_font)
         plt.tight_layout()
-        
+
         filepath = os.path.join(CHARTS_DIR, filename)
         plt.savefig(filepath, dpi=300, bbox_inches='tight')
         plt.close()
-        
-        self.log(f"温度分布图已保存: {filepath}")
+
+        self.log(f"14天温度与时间正态分布图已保存: {filepath}")
         return filepath
     
     def plot_temp_vs_apparent_boxplot(self, df, filename="05_temp_vs_apparent_boxplot.png"):

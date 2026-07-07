@@ -193,6 +193,47 @@ class LineScatterPlotter:
         self.log(f"相关性热力图已保存: {filepath}")
         return filepath
     
+    def plot_temperature_time_scatter(self, df, filename="08_temperature_time_scatter.png"):
+        """
+        绘制温度与时间的散点图（14天小时级时序）
+        横轴：时间；纵轴：气温；按昼夜分组着色
+        Args:
+            df: 小时级数据
+            filename: 输出文件名
+        """
+        self.log("绘制温度与时间的散点图")
+        
+        fig, ax = plt.subplots(figsize=(14, 8))
+        
+        # 按昼夜分组，时间为横轴、气温为纵轴
+        day_data = df[df["昼夜"] == "白天"]
+        night_data = df[df["昼夜"] == "夜晚"]
+        
+        ax.scatter(day_data["时间"], day_data["气温"], 
+                c='#e67e22', alpha=0.6, s=45, label='白天气温', 
+                edgecolors='white', linewidth=0.5)
+        ax.scatter(night_data["时间"], night_data["气温"], 
+                c='#3498db', alpha=0.6, s=45, label='夜晚气温')
+        
+        ax.set_title('温度与时间的散点图（14天小时级）', 
+                    fontsize=16, fontweight='bold', pad=20, fontproperties=my_font)
+        ax.set_xlabel('时间', fontsize=12, fontproperties=my_font)
+        ax.set_ylabel('气温 (°C)', fontsize=12, fontproperties=my_font)
+        ax.legend(fontsize=10, loc='upper right', prop=my_font)
+        ax.grid(True, alpha=0.3, linestyle='--')
+        
+        # 格式化横轴时间标签，避免拥挤
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
+        
+        plt.tight_layout()
+        
+        filepath = os.path.join(CHARTS_DIR, filename)
+        plt.savefig(filepath, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        self.log(f"温度与时间散点图已保存: {filepath}")
+        return filepath
+    
     def run(self):
         """
         运行折线图与散点图绘制流程
@@ -217,6 +258,9 @@ class LineScatterPlotter:
         
         # 3. 相关性热力图
         figures['correlation_heatmap'] = self.plot_correlation_heatmap(df)
+
+        # 4. 温度与时间的散点图
+        figures['temperature_time_scatter'] = self.plot_temperature_time_scatter(df)
         
         print("=" * 60)
         print(f"折线图与散点图绘制完成，共生成 {len(figures)} 张图表")
